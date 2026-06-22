@@ -4,6 +4,8 @@
 
 **Speak once, get text — everywhere you type.**
 
+> **Linux only.** SpeakOnce drives X11 (`xdotool`) and PulseAudio (`parecord`) directly, so it won't run on Windows or macOS — not even under WSL, where it can't type into native apps. On Windows, Wispr Flow or the built-in Win+H voice typing already cover this; SpeakOnce is for the Linux/AMD gap.
+
 SpeakOnce is a self-hosted, GPU-accelerated voice dictation tool for Linux. Press a hotkey, talk, press it again, and your words are transcribed locally and typed straight into whatever app has focus. No cloud, no CUDA, no subscription — the audio never leaves your machine.
 
 It's the dictation half of a pair with [TypeOnce](https://github.com/goweft/TypeOnce): *type once* for boilerplate you trigger, *speak once* for prose you dictate.
