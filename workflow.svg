@@ -1,0 +1,39 @@
+<svg width="100%" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="How SpeakOnce works: press a hotkey, record the mic, transcribe with whisper.cpp on the GPU via Vulkan, optionally clean the text with a local Ollama model, then type it at the cursor with xdotool.">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#6e7681" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="500" height="500" rx="16" fill="#0d1117"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" text-anchor="middle" dominant-baseline="central">
+    <rect x="240" y="40" width="200" height="56" rx="8" fill="#161b22" stroke="#3d444d" stroke-width="1"/>
+    <text x="340" y="62" font-size="15" font-weight="600" fill="#e6edf3">Press a hotkey</text>
+    <text x="340" y="80" font-size="12.5" fill="#8b949e">F9 raw · F10 clean</text>
+
+    <rect x="240" y="132" width="200" height="56" rx="8" fill="#161b22" stroke="#3d444d" stroke-width="1"/>
+    <text x="340" y="154" font-size="15" font-weight="600" fill="#e6edf3">Record mic</text>
+    <text x="340" y="172" font-size="12.5" fill="#8b949e">parecord · 16 kHz</text>
+
+    <rect x="48" y="224" width="150" height="56" rx="8" fill="#161b22" stroke="#3d444d" stroke-width="1"/>
+    <text x="123" y="246" font-size="15" font-weight="600" fill="#e6edf3">Vocab packs</text>
+    <text x="123" y="264" font-size="12.5" fill="#8b949e">bias the model</text>
+
+    <rect x="240" y="224" width="200" height="56" rx="8" fill="#161b22" stroke="#2dd4bf" stroke-width="1.5"/>
+    <text x="340" y="246" font-size="15" font-weight="600" fill="#e6edf3">whisper.cpp</text>
+    <text x="340" y="264" font-size="12.5" fill="#5dcaa5">Vulkan · your GPU</text>
+
+    <rect x="240" y="316" width="200" height="56" rx="8" fill="#161b22" stroke="#f2a623" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="340" y="338" font-size="15" font-weight="600" fill="#e6edf3">Ollama cleanup</text>
+    <text x="340" y="356" font-size="12.5" fill="#e8b94d">optional · F10 only</text>
+
+    <rect x="240" y="408" width="200" height="56" rx="8" fill="#161b22" stroke="#3d444d" stroke-width="1"/>
+    <text x="340" y="430" font-size="15" font-weight="600" fill="#e6edf3">xdotool types it</text>
+    <text x="340" y="448" font-size="12.5" fill="#8b949e">at your cursor</text>
+
+    <line x1="340" y1="96" x2="340" y2="132" stroke="#6e7681" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <line x1="340" y1="188" x2="340" y2="224" stroke="#6e7681" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <line x1="340" y1="280" x2="340" y2="316" stroke="#6e7681" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <line x1="340" y1="372" x2="340" y2="408" stroke="#6e7681" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <line x1="198" y1="252" x2="240" y2="252" stroke="#6e7681" stroke-width="1.5" marker-end="url(#arrow)"/>
+  </g>
+</svg>

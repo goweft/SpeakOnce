@@ -29,9 +29,7 @@ SpeakOnce is the opposite of all that:
 
 ## How it works
 
-```
-mic -> parecord (16kHz) -> whisper.cpp (Vulkan/GPU) -> [optional Ollama cleanup] -> xdotool types it
-```
+![How SpeakOnce works](workflow.svg)
 
 Press the hotkey once to start recording from your default input; press it again to stop, transcribe on the GPU, and type the result at the cursor. The whole loop is local.
 
