@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+# speakonce-clean - tidy raw dictation via a local Ollama model (text in, text out).
+# Use a NON-reasoning instruct model (e.g. qwen2.5-coder, llama3.2:3b); reasoning
+# models (qwen3, deepseek-r1) ramble instead of returning clean text.
+# Configure via env: SPEAKONCE_CLEAN_MODEL, SPEAKONCE_OLLAMA_URL.
+import json, os, sys, re, urllib.request
+
+MODEL = os.environ.get("SPEAKONCE_CLEAN_MODEL", "qwen2.5-coder:7b")
+URL   = os.environ.get("SPEAKONCE_OLLAMA_URL", "http://localhost:11434") + "/api/chat"
+
+txt = (sys.argv[1] if len(sys.argv) > 1 else sys.stdin.read()).strip()
+if not txt:
+    sys.exit(0)
+
+req = {
+  "model": MODEL, "stream": False,
+  "options": {"temperature": 0.1, "num_predict": 256},
+  "messages": [
+    {"role": "system", "content": "You clean up raw speech-to-text dictation. Fix grammar, punctuation, and capitalization, and remove filler words (um, uh, like, you know) and accidental repeated words. Keep the speaker's meaning and wording otherwise. Reply with ONLY the corrected text - no preamble, no quotes, no notes, no explanation."},
+    {"role": "user", "content": "um so yeah i think the the build is is broken on main right now"},
+    {"role": "assistant", "content": "I think the build is broken on main right now."},
+    {"role": "user", "content": txt},
+  ],
+}
+try:
+    data = json.dumps(req).encode()
+    r = urllib.request.urlopen(URL, data=data, timeout=60)
+    out = json.load(r).get("message", {}).get("content", "")
+    out = re.sub(r"<think>.*?</think>", "", out, flags=re.S).strip()
+    if len(out) >= 2 and out[0] in "\"'" and out[-1] == out[0]:
+        out = out[1:-1].strip()
+    print(out if out else txt)
+except Exception:
+    print(txt)   # any failure -> emit the raw transcript, never lose text

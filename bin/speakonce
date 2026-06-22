@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# speakonce [clean] - toggle local GPU voice dictation that types at your cursor.
+#   (no arg)  raw transcription, fastest
+#   clean     route the transcript through a local Ollama model first
+# Configurable via env (see README): SPEAKONCE_MODEL, SPEAKONCE_WHISPER,
+# SPEAKONCE_PACKS, SPEAKONCE_DEVICE, SPEAKONCE_CLEAN.
+set -u
+
+WHISPER="${SPEAKONCE_WHISPER:-$HOME/whisper.cpp/build/bin/whisper-cli}"
+MODEL="${SPEAKONCE_MODEL:-$HOME/whisper.cpp/models/ggml-small.en.bin}"
+PACK_DIR="${SPEAKONCE_PACKS:-$HOME/.config/speakonce/packs}"
+CLEAN_BIN="${SPEAKONCE_CLEAN:-$HOME/.local/bin/speakonce-clean}"
+DEVICE="${SPEAKONCE_DEVICE:-}"          # empty = system default input device
+WAV="${TMPDIR:-/tmp}/speakonce.wav"
+PIDF="${TMPDIR:-/tmp}/speakonce.pid"
+MODE="${1:-raw}"
+
+export DISPLAY="${DISPLAY:-:0}" XAUTHORITY="${XAUTHORITY:-$HOME/.Xauthority}"
+note(){ command -v notify-send >/dev/null && notify-send -t "${2:-1500}" "SpeakOnce" "$1" 2>/dev/null; }
+el(){ awk -v a="$1" -v b="$2" 'BEGIN{printf "%.1f", b-a}'; }
+vocab(){ cat "$PACK_DIR"/*.txt 2>/dev/null | tr '\n' ' '; }   # whisper bias prompt
+
+if [ -f "$PIDF" ] && kill -0 "$(cat "$PIDF" 2>/dev/null)" 2>/dev/null; then
+  # STOP: finalize recording, transcribe on GPU, type the result
+  kill -INT "$(cat "$PIDF")" 2>/dev/null; rm -f "$PIDF"; sleep 0.3
+  note "transcribing..."
+  PROMPT="$(vocab)"; PROMPT_ARGS=()
+  [ -n "$PROMPT" ] && PROMPT_ARGS=(--prompt "$PROMPT")
+  S0=$(date +%s.%N)
+  TEXT=$("$WHISPER" -m "$MODEL" -f "$WAV" "${PROMPT_ARGS[@]}" -np -nt 2>/dev/null \
+        | tr '\n' ' ' | sed -E 's/\[[^]]*\]//g; s/  +/ /g; s/^ +//; s/ +$//')
+  S1=$(date +%s.%N)
+  if [ "$MODE" = "clean" ] && [ -n "$TEXT" ] && [ -x "$CLEAN_BIN" ]; then
+    note "cleaning..."; TEXT=$("$CLEAN_BIN" "$TEXT" 2>/dev/null)
+  fi
+  S2=$(date +%s.%N)
+  if [ -n "$TEXT" ]; then
+    xdotool type --clearmodifiers --delay 4 -- "$TEXT "
+    if [ "$MODE" = "clean" ]; then
+      note "transcribe $(el $S0 $S1)s + clean $(el $S1 $S2)s: $TEXT" 2500
+    else
+      note "$(el $S0 $S1)s: $TEXT" 2000
+    fi
+  else
+    note "(nothing heard)"
+  fi
+else
+  # START: record from the chosen device (or the default input)
+  rm -f "$WAV"
+  if [ -n "$DEVICE" ]; then
+    parecord --device="$DEVICE" --rate=16000 --channels=1 --format=s16le --file-format=wav "$WAV" &
+  else
+    parecord --rate=16000 --channels=1 --format=s16le --file-format=wav "$WAV" &
+  fi
+  echo $! > "$PIDF"
+  [ "$MODE" = "clean" ] && M="(clean) " || M=""
+  note "${M}recording... press again to stop" 3000
+fi

@@ -1,0 +1,15 @@
+# editor / OS cruft
+*.swp
+*~
+.DS_Store
+
+# local runtime artifacts
+*.wav
+*.pid
+
+# node (for future desktop clients)
+node_modules/
+
+# python
+__pycache__/
+*.pyc
