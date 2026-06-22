@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" role="img" aria-label="SpeakOnce">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1117"/>
+      <stop offset="1" stop-color="#161b22"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2dd4bf"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="300" fill="url(#bg)"/>
+  <g fill="url(#accent)">
+    <rect x="836" y="128" width="7" height="44" rx="3.5"/>
+    <rect x="854" y="111" width="7" height="78" rx="3.5"/>
+    <rect x="872" y="121" width="7" height="58" rx="3.5"/>
+    <rect x="890" y="90" width="7" height="120" rx="3.5"/>
+    <rect x="908" y="106" width="7" height="88" rx="3.5"/>
+    <rect x="926" y="75" width="7" height="150" rx="3.5"/>
+    <rect x="944" y="98" width="7" height="104" rx="3.5"/>
+    <rect x="962" y="55" width="7" height="190" rx="3.5"/>
+    <rect x="980" y="83" width="7" height="134" rx="3.5"/>
+    <rect x="998" y="45" width="7" height="210" rx="3.5"/>
+    <rect x="1016" y="70" width="7" height="160" rx="3.5"/>
+    <rect x="1034" y="54" width="7" height="192" rx="3.5"/>
+    <rect x="1052" y="89" width="7" height="122" rx="3.5"/>
+    <rect x="1070" y="74" width="7" height="152" rx="3.5"/>
+    <rect x="1088" y="104" width="7" height="92" rx="3.5"/>
+    <rect x="1106" y="91" width="7" height="118" rx="3.5"/>
+  </g>
+  <text x="80" y="150" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="84" font-weight="800" fill="#e6edf3">Speak<tspan fill="url(#accent)">Once</tspan></text>
+  <text x="84" y="200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="27" fill="#8b949e">Speak once, get text — everywhere you type.</text>
+  <text x="84" y="242" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="19" fill="#6e7681">whisper.cpp · Vulkan · 100% local · no CUDA</text>
+</svg>
